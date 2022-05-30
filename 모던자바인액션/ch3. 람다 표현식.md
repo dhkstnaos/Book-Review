@@ -130,3 +130,18 @@ inventory.sort(comparing(a -> a.getPrice()));
 //메서드 참조로 가독성 향상
 inventory.sort(comparing(Apple::getPrice));            
 ```
+            
+#### 람다 표현식을 활용한 유용한 메서드들
+잘 활용하면 느낌 있을듯,,!
+```java
+//역정렬
+inventory.sort(comparing(Apple::getPrice).reversed());
+            
+//가격순으로 정렬하나 가격이 같을땐 컬러별로 정렬
+inventory.sort(comparing(Apple::getPrice)
+       .reversed()
+       .thenComparing(Apple::getColor));
+```
+            
+#### Predicate 조합
+Predicate
