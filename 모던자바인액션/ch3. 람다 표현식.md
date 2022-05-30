@@ -110,4 +110,23 @@ ClassName::new처럼 new 키워드를 이용해 생성자 참조를 만들 수 �
 Supplier<Apple> c1 = Apple::new;
 Apple a1 = c1.get();
 ```
-ClassName::new처럼 new 키워드를 이용해 생성자 참조를 만들 수 있다.
+            
+#### 람다, 메서드 참조 활용하기
+```java
+//익명 클래스
+inventory.sort(new Comparator<Apple>() {
+        @Override
+        public int compare(Apple o1, Apple o2) {
+                return o1.getPrice() - o2.getPrice();
+        }
+});
+
+//람다 표현식
+inventory.sort((Apple o1, Apple o2) -> o1.getPrice() - o2.getPrice());
+
+//코드 간소화
+inventory.sort(comparing(a -> a.getPrice()));
+
+//메서드 참조로 가독성 향상
+inventory.sort(comparing(Apple::getPrice));            
+```
