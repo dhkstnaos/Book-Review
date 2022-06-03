@@ -156,3 +156,10 @@ long parallelism = 1;
 Optional<Long> maxValue = Optional.ofNullable(map.reduceValues(parallelism, Long::max));
 System.out.println(maxValue.get()); // 3
 ```
+## 8장 마치며
+* 자바9는 바꿀 수 없는 컬렉션을 만들 수 있게 List.of, Set.of, Map.of 등의 팩토리 메서드를 제공한다.
+* 만들어진 다음엔 바꿀 수 없는 객체이다.
+* List 인터페이스는 removeIf, replaceall, sort 세 가지 디폴트 메서드를 지원한다.
+* Set은 removeIf라는 디폴트 메서드를 지원한다.
+* Map은 자주 사용하는 패턴과 버그 방지를 위해 다양한 디폴트 메서드를 제공한다.
+* conCurrentHashMap은 맵에서 상속받은 새 디폴트 메서드를 지원함과 동시에 스레드 안정적도 제공한다.
