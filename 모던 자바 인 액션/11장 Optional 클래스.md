@@ -81,8 +81,36 @@ public Set<String> getCarInsuranceNames(List<Person> persons) {
     return persons.stream()
         .map(Person::getCar) //optinal로 변환
         .map(optCar -> optCar.flatMap(Car::getInsurance))
-        .map(optInsurance -> optInsurance.map(Insurance::getName))
-        .flatMap(Optional::stream)
+        .map(optInsurance -> optInsurance.map(Insurance::getName)) //Optional<String> 반환
+        .flatMap(Optional::stream) //Stream<Optional<String>>을 Stream<String>로 변환
         .collect(toSet());
 }
 ```
+### 11.3.5 디폴트 액션과 Optional 언랩
+* get : 값을 읽는 가장 간단한 메서드면서 동시에 가장 안전하지 않은 메서드이다. 값이 없으면 NoSuchElementException을 뱉기에 값이 반드시 있다고 가정할 수 있는 상황이 아니면 get메서드를 사용하지 말자 
+* orElse : Optional이 값을 포함하지 않을 때 기본값을 제공할 수 있다. 
+* orElseGet(Supplier<? extends T> other) : orElse 메서드에 대응하는 게으른 버전의 메서드이다. Optional에 값이 없을 때만 Supplier가 실행된다. 
+* orElseThrow(Supplier<? extends X> exceptionSupplier) : Optional이 비어있을 때 예외를 발생시킬 수 있으며, 발생시킬 예외의 종류를 선택할 수 있다. 
+* ifPresent(Consumer<? super T> consumer) : 값이 존재할 대 인수로 넘겨준 동작을 실행할 수 있다. 값이 없으면 아무일도 일어나지 않는다. 
+* ifPresentOrElse(Consumer<? super T> action, Runnable emptyAction) : Optional이 비었을 때 실행할 Runnable을 인수로 받는다
+
+## Optional 제공 함수
+
+|      메서드      |                           파라미터와 리턴값                            |
+|:-------------:|:--------------------------------------------------------------:|
+|     empty     |                       빈 Optional 인스턴스 반환                       |
+|    filter     | 값이 존재하며 프레디케이트와 일치하면 값을 포함하는 Optional을 반환하고 아니면 빈 Optional을 반환 |
+|    flatMap    |  값이 존재하면 인수로 제공된 함수를 적용 결과 Optional을 반환하고 아니면 빈 Optional을 반환   |
+|      get      |    값이 존재하면 Optional을 반환하고 아니면 NoSuchElementException을 발생시킴     |
+|   ifPresent   |         값이 존재하면 지정된 Consumer를 실행하고, 없으면 아무 일도 일어나지 않음          |
+| ifPresentElse |         값이 존재하면 지정된 Consumer를 실행하고, 없으면 아무 일도 일어나지 않음          |
+|   isPresent   |                     값이 존재하면 true 아니면 false                     |
+|      map      |                         제공된 매핑 함수를 적용함                         |
+|      of       |       값이 존재하면 Optional을 반환하고 아니면 NullPointerException 발생       |
+|  ofNullable   |           값이 존재하면 Optional을 반환하고 아니면 빈 Optional을 반환            |
+|      or       |    값이 존재하면 같은 Optional을 반환하고 아니면 Supplier에서 만든 Optional을 반환    |
+|    orElse     |                  값이 존재하면 값을 반환하고 아니면 기본값을 반환함                  |
+|   orElseGet   |          값이 존재하면 같은 값을 반환하고 아니면 Supplier에서 제공하는 값을 반환          |
+|  orElseThrow  |       값이 존재하면 같은 값을 반환하고 아니면 Supplier에서 만든 Optional을 반환        |
+|    stream     |              값이 존재하면 stream을 반환하고 아니면 빈 stream을 반환              |
+
