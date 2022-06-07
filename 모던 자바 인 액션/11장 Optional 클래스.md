@@ -59,7 +59,7 @@ Optional<String> name = optInsurance.map(Insurance::getName());
 map 메서드로 반환되는 값은 Optional로 감싸짐을 확인할 수 있다.
 그렇다면 반환하는 객체가 이미 Optional 객체일 경우 반환되는 타입이 Optional<Optional>이다. 
 두번 감싸진 Optional로 받고 싶지 않다면 flatMap 메서드를 사용하면 된다. 
-flatMap 메서드는 전달된 Optional 객체의 요소에 대해 새로운 Optional로 반환한다.
+flatMap 메서드는 전달된 Optional 객체의 요소에 대해 새로운 Optional 반환한다.
 ```java
 public String getCarInsuranceName(Optional<Person> person) {
         return person.flatMap(Person::getCar)
@@ -68,7 +68,21 @@ public String getCarInsuranceName(Optional<Person> person) {
         }
 ```
 
-> 도메인 모델에 Optional을 사용했을 때 데이터를 직렬화할 수 없는 이유  
+> 도메인 모델에 Optional 사용했을 때 데이터를 직렬화할 수 없는 이유  
 > Optional 클래스는 필드 형식으로 사용할 것을 가정하지 않았으므로 Serializable 인터페이스를 구현하지 않는다.  
 > 따라서 직렬화 모델을 사용하게 되면 문제가 생길 수 있다.  
-> 만약 직렬화 모델이 필요하다면 변수는 일반 객체로 두되 Optional로 값을 반환받는 방식을 권장한다.
+> 만약 직렬화 모델이 필요하다면 변수는 일반 객체로 두되 Optional 값을 반환받는 방식을 권장한다.
+
+### 11.3.4 Optional 스트림 조작
+자바 9에선 Optional을 포함하는 스트림을 쉽게 처리할 수 있도록 Optional에 stream 메서드를 추가했다.
+Optional 스트림을 값을 가진 스트림으로 변화할때 유용하다.
+```java
+public Set<String> getCarInsuranceNames(List<Person> persons) {
+    return persons.stream()
+        .map(Person::getCar) //optinal로 변환
+        .map(optCar -> optCar.flatMap(Car::getInsurance))
+        .map(optInsurance -> optInsurance.map(Insurance::getName))
+        .flatMap(Optional::stream)
+        .collect(toSet());
+}
+```
