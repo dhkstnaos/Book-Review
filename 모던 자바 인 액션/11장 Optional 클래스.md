@@ -112,5 +112,10 @@ public Set<String> getCarInsuranceNames(List<Person> persons) {
 |    orElse     |                  값이 존재하면 값을 반환하고 아니면 기본값을 반환함                  |
 |   orElseGet   |          값이 존재하면 같은 값을 반환하고 아니면 Supplier에서 제공하는 값을 반환          |
 |  orElseThrow  |       값이 존재하면 같은 값을 반환하고 아니면 Supplier에서 만든 Optional을 반환        |
-|    stream     |              값이 존재하면 stream을 반환하고 아니면 빈 stream을 반환              |
+|    stream     |              값이 존재하면 stream을 반환하고 아니면 빈 stream 반환              |
 
+### 마치며
+* 자바는 값의 존재 유무를 표현할 수 있는 클래스 java.util.Optional<T>를 제공한다.
+* 팩토리 메서드를 통해 Optional을 생성할 수 있다.
+* Optional은 스트림과 비슷한 연산을 수행하는 메서드를 지원한다.
+* Optional을 통해 예상치 못한 null 예외를 방지할 수 있다.
